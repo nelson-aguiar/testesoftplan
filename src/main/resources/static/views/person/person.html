@@ -1,0 +1,62 @@
+<div>
+<form class="form-horizontal" ng-submit="getPerson()">
+	<div>
+		<h4>{{ view }}</h4>
+	</div>	
+	<div ng-if="mostraMsg" ng-class="classMessage">
+		<span class="glyphicon glyphicon-exclamation-sign">  <strong>{{message}}</strong></span>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2" for="name">Nome:</label>
+		<div class="col-sm-6">
+			<input type="text" class="form-control" name="nome" id="nome"
+				ng-model="person.nome" >
+		</div>
+		<div class="col-sm-1">
+            <div  class="btn-group">
+                <button type="submit"
+                    class="btn btn-info btn-lg btn-icon" title="Pesquisar"
+                    name="pesquisar" id="pesquisarPerson"
+                    ng-click="Submit">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+                <button type="button" ng-click="newPerson()"
+                    class="btn btn-info btn-lg btn-icon"
+                    title="Incluir novo" name="incluirPerson" id="incluirPerson">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>            
+            </div>
+		</div>
+	</div>
+</form>
+<div class="table-responsive" ng-show="isLoaded">
+	<table  class="table table-bordered">
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>Nome</th>
+				<th>Data de Nascimento</th>
+				<th>E-mail</th>
+				<th>Endereço</th>
+				<th>Telefone</th>
+				<th>Editar</th>
+				<!-- <th>Remover</th> -->
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="person in persons">
+				<td class="td-right">{{person.id}}</td>
+				<td class="td-left">{{person.nome}}</td>
+				<td class="td-right">{{person.dtNascimento}}</td>
+				<td class="td-left">{{person.email}}</td>
+				<td class="td-left">
+					{{person.endereco.endeRua +'/'+ person.endereco.endeNumero + (person.endereco.endeComplemento == null ? '' : +' / '+person.endereco.endeComplemento) +' / ' + person.endereco.endeCep +' / ' + person.endereco.cidade.descr +' / '+person.endereco.cidade.estado.sigla}} </td>
+				<td class="td-right">{{person.telCel}} / {{person.telRes}}</td>
+				<td class="td-center"><button class="btn  btn-info btn-lg btn-icon" ng-click="editPerson(person.id)"><span class="glyphicon glyphicon-pencil"></span></button></td>
+				<!-- <td class="td-center"><button class="btn  btn-danger btn-lg btn-icon" ng-click="removePerson(person.id, $index)"><span class="glyphicon glyphicon-remove"></span></button></td> -->
+			</tr>
+		</tbody>
+	</table>
+</div>
+</div>
+<div id="modal" ng-include src="'views/modal_loading.html'" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"></div>

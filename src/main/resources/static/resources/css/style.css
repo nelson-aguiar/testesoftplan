@@ -1,0 +1,74 @@
+
+.label-form{
+	width: 10%;
+	float: left;
+}
+.input-sm{
+	width: 10%;
+}
+.input-md{
+	width: 40%;
+}
+.input-lg{
+	width: 80%;
+}
+.btn-icon{
+	padding: 5px 10px;
+}
+.font-re {
+	font-family: fantasy;
+	font-style: italic;
+}	
+body {
+	background-color: rgb(248, 248, 255);
+	background-size: 100% 100%;
+}
+
+header {
+	position: fixed;
+	width: 100%;
+	z-index: 1;
+}
+
+form {
+	padding-top: 90px;
+}
+
+.content-form-tabs{
+	padding-top: 50px !important;
+}
+
+#container{
+padding-left: 0;
+width: 100%;
+}
+
+.fade{
+    -webkit-transition: opacity 0.5s; /* For Safari 3.1 to 6.0 */
+    transition: opacity 0.5s;
+    opacity: 0;
+}
+
+.default{
+	opacity : 1;
+}
+
+.td-right{
+	text-align: right;
+}
+.td-left{
+	text-align: left;
+}
+.td-center{
+	text-align: center;
+}
+.toggle-radio-status{
+	text-align: right;
+}
+.hidden{
+    visibility: hidden; 
+}
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: silver;
+}
