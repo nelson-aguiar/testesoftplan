@@ -1,6 +1,6 @@
 /*global app*/
-app.factory('PersonResource', function ($resource) {
-	return $resource("http://localhost:8080/api/teste-softplan/person/:id/:nome", {}, {
+app.factory('PersonResource', function ($resource, Configuration) {
+	return $resource(Configuration.API+"/person/:id/:nome", {}, {
 
 		'save' : {
 			method : 'POST',
@@ -58,8 +58,8 @@ app.factory('buscaCepResource', function($resource) {
 })
 ;
 
-app.factory("autocompleteClienteResource", function ($resource) {
-   return $resource("http://localhost:8080/rest/cliente-autocomplete/cliente-autocomplete/:nome", {}, {
+app.factory("autocompleteClienteResource", function ($resource, Configuration) {
+   return $resource(Configuration.API+"/person-autocomplete/person-autocomplete/:nome", {}, {
         'search' : {
             method : 'GET', 
             isArray : true,

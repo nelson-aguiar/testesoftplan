@@ -1,5 +1,16 @@
 /*global angular, isNumber, showMsgError, showMsgSuccess, startLoad, finishLoad, console, errCallbackService*/
 var app = angular.module('app', ['ngResource', 'ngRoute', 'ngAnimate']);
+
+
+app.service("Configuration", function() {
+	  if (window.location.host.match(/herokuapp\.com/)) {
+	    return this.API = 'http://teste-softplan.herokuapp.com/api/teste-softplan';
+	  } else {
+	    return this.API = 'http://localhost\\:8080/api/teste-softplan';
+	  }
+	});
+
+
 /**
  * Controller para view de pesquisade persons
  * ações de busca redirecionamento etc estão contidas neste bloco
