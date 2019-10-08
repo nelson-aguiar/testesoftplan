@@ -5,7 +5,7 @@ var app = angular.module('app', ['ngResource', 'ngRoute', 'ngAnimate']);
  * ações de busca redirecionamento etc estão contidas neste bloco
  * */
 app.controller('pesquisarPersonCtrl', function ($scope, PersonResource ,$timeout) {
-    $scope.view = 'Pesquisar Person';
+    $scope.view = 'Pesquisar Pessoa';
     //direciona para pagina de inclusão
     $scope.newPerson = function () {
         location.href = '#/include-person';
