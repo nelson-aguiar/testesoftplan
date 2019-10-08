@@ -37,14 +37,13 @@ public class PersonController {
 		return ResponseEntity.ok(service.getById(id));
 	}
 	
-	@GetMapping(value= "/{id}", consumes = "application/vnd.nelsonaguiar.testesoftplan-v2+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v2+json")
-	
+	@GetMapping(value= "/{id}", consumes = "application/vnd.nelsonaguiar.testesoftplan-v2+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v2+json")	
 	public ResponseEntity<PersonResource> getV2(@PathVariable final long id) {
 		this.service = beanFactory.getBean(PersonCustomServiceV2.class);
 		return ResponseEntity.ok(service.getById(id));
 	}
 	
-	@PostMapping(consumes = "application/json")
+	@PostMapping(consumes = "application/vnd.nelsonaguiar.testesoftplan-v1+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v1+json")
 	public ResponseEntity<PersonResource> post( @RequestBody PersonDTOV1 person) {
 		this.service = beanFactory.getBean(PersonCustomServiceV1.class);
 		System.err.println(person);

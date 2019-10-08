@@ -3,12 +3,18 @@ var app = angular.module('app', ['ngResource', 'ngRoute', 'ngAnimate']);
 
 
 app.service("Configuration", function() {
-	  if (window.location.host.match(/herokuapp\.com/)) {
-	    return this.API = 'http://teste-softplan.herokuapp.com/api/teste-softplan';
-	  } else {
-	    return this.API = 'http://localhost\\:8080/api/teste-softplan';
-	  }
-	});
+	return function (auth) {
+		this.customHeaderV1 = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v1+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v1+json", "Authorization" : auth};
+		this.customHeaderV2 = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v2+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v2+json", "Authorization" : auth};
+		if (window.location.host.match(/herokuapp\.com/)) {
+			this.API = 'http://teste-softplan.herokuapp.com/api/teste-softplan';
+			return this;
+		} else {
+			this.API = 'http://localhost\\:8080/api/teste-softplan';
+			return this;
+		}		
+	}
+});
 
 
 /**
@@ -80,8 +86,8 @@ app.controller('pesquisarPersonCtrl', function ($scope, PersonResource ,$timeout
 /**
  * Controller view incluir Person
  * **/
-app.controller('incluirAlterarPersonCtrl', function ($scope, PersonResource, buscaCepResource, $timeout, $routeParams) {
-    console.log(location.hash)
+app.controller('incluirAlterarPersonCtrl', function ($scope, PersonResource, buscaCepResource, $timeout, $routeParams, Configuration) {
+	$scope.customHeader = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v1+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v1+json"};
     /*Função para carregar as funções e atributos da view de alteração ou criação*/
     function carregaView() {
         if (location.hash == '#/include-person') {
@@ -108,7 +114,7 @@ app.controller('incluirAlterarPersonCtrl', function ($scope, PersonResource, bus
     $scope.savePerson = function () {
         if(isNumber($scope.person.id) && location.hash.search('edit-person') > -1) {
             startLoad();
-            PersonResource.update($scope.person, function (data) {
+            PersonResource.update($scope.person, {header : [{Accept: ""}]},function (data) {
                 showMsgSuccess($scope, $timeout, 'Person Alterado com Sucesso!!!');
                 $scope.person = data;
                 console.log(data);
@@ -120,9 +126,8 @@ app.controller('incluirAlterarPersonCtrl', function ($scope, PersonResource, bus
         }
         else {
             startLoad();
-            console.log($scope.person);
-            console.log($scope.genero);
-            PersonResource.save($scope.person, function (data) {
+            console.log($scope.customHeader);
+            PersonResource(Configuration("156156651651561561651651651561561").customHeaderV1).save($scope.person, function (data) {
                 showMsgSuccess($scope, $timeout, 'Person Inserido com Sucesso!!!');
                 $scope.person = data;
                 console.log(data);
