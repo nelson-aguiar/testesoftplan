@@ -2,9 +2,17 @@ package com.nelsonaguiar.testesoftplan.dto;
 
 import java.util.Date;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
+import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -28,7 +36,7 @@ public class PersonDTOV1 extends AbstractPerson {
 	
 	@JsonProperty("email")
 	@Email
-	@NotBlank
+	@Nullable
 	private String email;
 
 	@JsonProperty("gender")
@@ -36,6 +44,8 @@ public class PersonDTOV1 extends AbstractPerson {
 	
 	@JsonProperty("date_of_birth")
 	@JsonFormat(pattern="dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
+	@Past
 	private Date dateOfBirth;
 	
 	@JsonProperty("naturalness")
@@ -46,6 +56,7 @@ public class PersonDTOV1 extends AbstractPerson {
 	
 	@JsonProperty("document")
 	@NotBlank
+	@CPF(message = "CPF inválido")
 	private String document;
 	
 	@JsonProperty("registred_at")

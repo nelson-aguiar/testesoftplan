@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.nelsonaguiar.testesoftplan.dto.AbstractPerson;
+import com.nelsonaguiar.testesoftplan.dto.PersonDTOV1;
 import com.nelsonaguiar.testesoftplan.dto.PersonDTOV2;
 import com.nelsonaguiar.testesoftplan.exception.PersonNotFoundException;
 import com.nelsonaguiar.testesoftplan.repository.PersonRepository;
@@ -22,7 +23,7 @@ public class PersonCustomServiceV2 implements PersonService{
 	@Autowired 
 	private ModelMapper mapper;
 
-	//@Override
+	@Override
 	public PersonResource getById(Long id) {
 		return repository.findById(id).map(p -> 
 		new PersonResource(this.mapper.map(p, PersonDTOV2.class))).orElseThrow(() -> new PersonNotFoundException(id));
@@ -45,6 +46,12 @@ public class PersonCustomServiceV2 implements PersonService{
 
 	@Override
 	public PersonResource updatePerson(AbstractPerson person) {
+		return null;
+	}
+
+	@Override
+	public List<PersonDTOV1> getPersonsByName(String name) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

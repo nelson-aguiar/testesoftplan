@@ -1,10 +1,9 @@
 package com.nelsonaguiar.testesoftplan.service;
 
 import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +58,13 @@ public class PersonCustomServiceV1 implements PersonService {
 	public PersonResource updatePerson(AbstractPerson person) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public List<PersonDTOV1> getPersonsByName(String name){
+		return repository.findAllByNameContaining(name).orElseThrow(() -> new PersonNotFoundException(name)).stream().map(p->{
+			return toDTO(p);
+		}).collect(Collectors.toList());
 	}
 	
 	private PersonDTOV1 toDTO(Object obj) {

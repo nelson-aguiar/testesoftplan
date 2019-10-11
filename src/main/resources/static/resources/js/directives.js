@@ -58,13 +58,13 @@ app.directive('autocompleteCliente', function ($timeout, autocompleteClienteReso
                     response($.map(result, function(value, key){
                         return {
                             label : value.id+' -- '+value.nome,
-                            value : value.nome,
+                            value : value.name,
                             id : value.id,
-                            nome : value.nome,
-                            endereco : value.endereco.endeRua+' '+value.endereco.endeNumero+
+                            nome : value.name,
+                          /*  endereco : value.endereco.endeRua+' '+value.endereco.endeNumero+
                             ' '+value.endereco.endeBairro+' ' +(value.endereco.complemento == null ? '' : value.endereco.complemento)+ value.endereco.cidade.descr+' '+value.endereco.cidade.estado.sigla,
                             telefoneRes : value.telRes,
-                            telefoneCel : value.telCel
+                            telefoneCel : value.telCel*/
                         };
                     }));
                 }, function(error){
@@ -72,11 +72,8 @@ app.directive('autocompleteCliente', function ($timeout, autocompleteClienteReso
                });
             },                  
             select: function(event, ui) {
-                scope.orcamento.cliente.id = ui.item.id;
-                scope.orcamento.cliente.nome = ui.item.nome;
-                scope.orcamento.cliente.endereco.endeRua = ui.item.endereco;
-                scope.orcamento.cliente.telRes = ui.item.telefoneRes;
-                scope.orcamento.cliente.telCel = ui.item.telefoneCel;
+                scope.person.id = ui.item.id;
+                scope.person.nome = ui.item.nome;
                 $compile(scope);
                 scope.$apply();
                 event.preventDefault();

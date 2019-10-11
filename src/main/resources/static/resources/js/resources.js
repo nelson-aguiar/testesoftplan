@@ -1,7 +1,7 @@
 /*global app*/
 app.factory('PersonResource', function ($resource, Configuration) {
 	return function (customHeader) {
-		return $resource(Configuration().API+"/person/:id/:nome", {}, {
+		return $resource(Configuration.API+"/person/:id/:name", {}, {
 			
 			'save' : {
 				method : 'POST',
@@ -16,31 +16,37 @@ app.factory('PersonResource', function ($resource, Configuration) {
 			'get' : {
 				method : 'GET',
 				isArray : false,
-				headers : {'Content-Type':'application/json; charset=UTF-8'},
+				headers : customHeader,
+				data : '',
 				params : {
 					id : '@id'
 				}
 			},
 			
 			'query' : {
+				url : Configuration.API+"/person/search",
 				method : 'GET',
 				isArray : true,
-				headers : {'Content-Type':'application/json; charset=UTF-8'},
+				headers : customHeader,
+				data : '', 
 				params : {
-					nome : '@nome'
+					name : '@nome'
 				}
 			},
 			
 			'getAll' : {
 				method : 'GET',
-				isArray : true
+				isArray : true,
+				headers : customHeader,
+				data : ''
 			},
 			
 			'remove' : {
 				method : 'DELETE',
 				params : {
 					id : '@id'
-				}
+				},
+				headers : customHeader
 			}
 		});		
 	}
@@ -61,7 +67,7 @@ app.factory('buscaCepResource', function($resource) {
 ;
 
 app.factory("autocompleteClienteResource", function ($resource, Configuration) {
-   return $resource(Configuration.API+"/person-autocomplete/person-autocomplete/:nome", {}, {
+   return $resource(Configuration.API+"/person/auto-complete/:nome", {}, {
         'search' : {
             method : 'GET', 
             isArray : true,

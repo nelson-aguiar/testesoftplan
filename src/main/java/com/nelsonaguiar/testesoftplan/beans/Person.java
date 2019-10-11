@@ -9,6 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Past;
+
+import org.springframework.validation.annotation.Validated;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="person")
+@Validated
 public class Person implements Serializable{
 	
 	/**
@@ -40,7 +46,9 @@ public class Person implements Serializable{
 	@Column(name = "gender")
 	private char gender;
 	
-	@Column(name = "date_of_birth", nullable = false)
+	@Temporal(TemporalType.DATE)
+	@Past
+	@Column(name = "date_of_birth", nullable = false)	
 	private Date dateOfBirth;
 	
 	@Column(name = "naturalness")

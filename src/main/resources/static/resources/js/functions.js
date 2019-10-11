@@ -36,8 +36,17 @@ function errCallbackService(err, $scope, $timeout){
         showMsgError($scope, $timeout, "Erro interno do servidor");
         return
     }
-    //console.log(err);
-    showMsgError($scope, $timeout, err.data.msg);
+	if(Array.isArray(err.data)){
+		var msg = err.data.map(function(err){
+			console.log(err)
+			//console.log("\n"+err.code +" "+ err.error);
+		    return "\n"+err.code +" "+ err.error;
+		});	
+		showMsgError($scope, $timeout, msg.toString());
+	}
+	else{
+		showMsgError($scope, $timeout, err.data.message);
+	}
 }
 
 function isNumber(string){

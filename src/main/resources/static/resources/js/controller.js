@@ -3,16 +3,14 @@ var app = angular.module('app', ['ngResource', 'ngRoute', 'ngAnimate']);
 
 
 app.service("Configuration", function() {
-	return function (auth) {
-		this.customHeaderV1 = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v1+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v1+json", "Authorization" : auth};
-		this.customHeaderV2 = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v2+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v2+json", "Authorization" : auth};
-		if (window.location.host.match(/herokuapp\.com/)) {
-			this.API = 'http://teste-softplan.herokuapp.com/api/teste-softplan';
-			return this;
-		} else {
-			this.API = 'http://localhost\\:8080/api/teste-softplan';
-			return this;
-		}		
+	this.customHeaderV1 = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v1+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v1+json"};
+	this.customHeaderV2 = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v2+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v2+json"};
+	if (window.location.host.match(/herokuapp\.com/)) {
+		this.API = 'http://teste-softplan.herokuapp.com/api/teste-softplan';
+		return this;
+	} else {
+		this.API = 'http://localhost\\:8080/api/teste-softplan';
+		return this;
 	}
 });
 
@@ -21,14 +19,14 @@ app.service("Configuration", function() {
  * Controller para view de pesquisade persons
  * ações de busca redirecionamento etc estão contidas neste bloco
  * */
-app.controller('pesquisarPersonCtrl', function ($scope, PersonResource ,$timeout) {
+app.controller('pesquisarPersonCtrl', function ($scope, PersonResource ,$timeout, Configuration) {
     $scope.view = 'Pesquisar Pessoa';
     //direciona para pagina de inclusão
     $scope.newPerson = function () {
-        location.href = '#/include-person';
+        location.href = '#/v1/include-person';
     };
     $scope.editPerson = function (id) {
-        location.href = '#/edit-person/' + id;
+        location.href = '#/v1/edit-person/' + id;
     };
     
     //funçao para a busca de persons
@@ -38,7 +36,7 @@ app.controller('pesquisarPersonCtrl', function ($scope, PersonResource ,$timeout
             return;
         } else if (nome == null) {
             startLoad();
-            $scope.persons = PersonResource.getAll(function (data) {
+            $scope.persons = PersonResource(Configuration.customHeaderV1).getAll(function (data) {
                 console.log(data);
                 $scope.isLoaded = true;
                 finishLoad();
@@ -50,10 +48,11 @@ app.controller('pesquisarPersonCtrl', function ($scope, PersonResource ,$timeout
             });							
         } else {
             startLoad();
-            $scope.persons = PersonResource.query({nome : nome}, function (data) {
+            $scope.persons = PersonResource(Configuration.customHeaderV1).query({name : nome}, function (data) {
                 $scope.isLoaded = true;
                 finishLoad();
             }, function (err) {
+                console.log(err);
                 errCallbackService(err, $scope, $timeout);
                 $scope.isLoaded = false;
                 finishLoad();
@@ -84,17 +83,78 @@ app.controller('pesquisarPersonCtrl', function ($scope, PersonResource ,$timeout
 });	
 	
 /**
- * Controller view incluir Person
+ * Controller view incluir Person V1
  * **/
 app.controller('incluirAlterarPersonCtrl', function ($scope, PersonResource, buscaCepResource, $timeout, $routeParams, Configuration) {
 	$scope.customHeader = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v1+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v1+json"};
     /*Função para carregar as funções e atributos da view de alteração ou criação*/
     function carregaView() {
-        if (location.hash == '#/include-person') {
+        if (location.hash == '#/v1/include-person') {
             $scope.acaoButton = 'Incluir Pessoa';
             $scope.person = {genero : 'M'};
+            $scope.showAddress = false;
             return 'Incluir Person';
-        } else if (location.hash.search('edit-person') > -1) {
+        } else if (location.hash.search('#/v1/edit-person') > -1) {
+            $scope.acaoButton = 'Alterar Pessoa';
+            $scope.person  = PersonResource.get({id : $routeParams.id}, function (data) {
+                console.log($scope.person);					
+            }, function (err) {
+                errCallbackService(err, $scope, $timeout);
+                //console.log(err);
+            });
+            return 'Editar Person';
+        }
+    }
+    //nome da view de acordo coma requisição
+    $scope.view = carregaView();		
+    //carregamento das páginas
+    $scope.isLoaded = false;		
+    
+
+    $scope.savePerson = function () {
+        if(isNumber($scope.person.id) && location.hash.search('edit-person') > -1) {
+            startLoad();
+            PersonResource.update($scope.person, {header : [{Accept: ""}]},function (data) {
+                showMsgSuccess($scope, $timeout, 'Person Alterado com Sucesso!!!');
+                $scope.person = data;
+                console.log(data);
+                finishLoad();
+            }, function (err) {
+                errCallbackService(err, $scope, $timeout);
+                finishLoad();
+            });
+        }
+        else {
+            startLoad();
+            console.log($scope.customHeader);
+            PersonResource(Configuration.customHeaderV1).save($scope.person, function (data) {
+                showMsgSuccess($scope, $timeout, 'Person Inserido com Sucesso!!!');
+                $scope.person = data;
+                console.log(data);
+                finishLoad();
+            },function (err) {
+            	console.log(err)
+                errCallbackService(err, $scope, $timeout);
+                finishLoad();
+            });				
+        }
+    }	
+
+});
+
+/**
+ * Controller view incluir Person V1
+ * **/
+app.controller('incluirAlterarPersonCtrlV2', function ($scope, PersonResource, buscaCepResource, $timeout, $routeParams, Configuration) {
+	$scope.customHeader = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v1+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v1+json"};
+    /*Função para carregar as funções e atributos da view de alteração ou criação*/
+    function carregaView() {
+        if (location.hash == '#/v2/include-person') {
+            $scope.acaoButton = 'Incluir Pessoa';
+            $scope.person = {genero : 'M'};
+            $scope.showAddress = true;
+            return 'Incluir Person';
+        } else if (location.hash.search('#/v2/edit-person') > -1) {
             $scope.acaoButton = 'Alterar Pessoa';
             $scope.person  = PersonResource.get({id : $routeParams.id}, function (data) {
                 console.log($scope.person);					
@@ -162,6 +222,7 @@ app.controller('incluirAlterarPersonCtrl', function ($scope, PersonResource, bus
         });	
     }		
 });
+
 
 
 /*app.controller('ListaComprasController', function ($scope, usuarioResource ) {

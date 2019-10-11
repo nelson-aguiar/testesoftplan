@@ -1,5 +1,7 @@
 package com.nelsonaguiar.testesoftplan.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.BeanFactory;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nelsonaguiar.testesoftplan.dto.PersonDTOV1;
@@ -44,25 +47,22 @@ public class PersonController {
 	}
 	
 	@PostMapping(consumes = "application/vnd.nelsonaguiar.testesoftplan-v1+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v1+json")
-	public ResponseEntity<PersonResource> post( @RequestBody PersonDTOV1 person) {
+	public ResponseEntity<PersonResource> post( @RequestBody @Valid PersonDTOV1 person) {
 		this.service = beanFactory.getBean(PersonCustomServiceV1.class);
 		System.err.println(person);
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(person));
 	}
 	
-//	@GetMapping
-//	public ResponseEntity<Resources<PersonResourceV1>> all() {
-//		/*
-//		 * final List<PersonResource> collection =
-//		 * personRepository.findAll().stream().map( p -> new
-//		 * PersonResource(this.mapper.map(p,
-//		 * PersonDTOV1.class))).collect(Collectors.toList()); final
-//		 * Resources<PersonResource> resources = new Resources<>(collection); final
-//		 * String uriString =
-//		 * ServletUriComponentsBuilder.fromCurrentRequest().build().toUriString();
-//		 * resources.add(new Link(uriString, "self"));
-//		 */
-//	  return ResponseEntity.ok(null);
-//	}
+	@GetMapping(consumes = "application/vnd.nelsonaguiar.testesoftplan-v1+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v1+json")
+	public ResponseEntity<List<PersonDTOV1>> getPerson() {
+		this.service = beanFactory.getBean(PersonCustomServiceV1.class);
+		return ResponseEntity.ok(this.service.getPersonsByName(""));
+	}
+	
+	@GetMapping(value= "/search", consumes = "application/vnd.nelsonaguiar.testesoftplan-v1+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v1+json")
+	public ResponseEntity<List<PersonDTOV1>> getPersonByName(@RequestParam String name) {
+		this.service = beanFactory.getBean(PersonCustomServiceV1.class);
+		return ResponseEntity.ok(this.service.getPersonsByName(name));
+	}
 
 }

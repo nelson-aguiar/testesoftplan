@@ -39,7 +39,7 @@ class PersonRepositoryTest {
 		Date d = null;
 		
 		try {
-			d = sdf.parse("24/12/19852");
+			d = sdf.parse("24/12/2023");
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
@@ -49,7 +49,7 @@ class PersonRepositoryTest {
 		
 		assertEquals(this.repository.findAll().iterator().hasNext(), true);
 		
-		log.error(this.repository.findAll().toString());
+		log.error(this.repository.findAllByNameContaining("Nels").toString());
 	}
 	
 	

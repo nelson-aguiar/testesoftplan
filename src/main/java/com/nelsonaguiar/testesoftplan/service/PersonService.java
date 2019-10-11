@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.nelsonaguiar.testesoftplan.dto.AbstractPerson;
+import com.nelsonaguiar.testesoftplan.dto.PersonDTOV1;
 import com.nelsonaguiar.testesoftplan.resources.PersonResource;
 
 
@@ -20,5 +21,7 @@ public interface PersonService {
 	public boolean deletePerson(Long id);
 	
 	public PersonResource updatePerson(AbstractPerson person);
+	
+	public List<PersonDTOV1> getPersonsByName(String name);
 	
 }
