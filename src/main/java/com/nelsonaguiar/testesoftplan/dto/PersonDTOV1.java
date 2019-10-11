@@ -2,16 +2,12 @@ package com.nelsonaguiar.testesoftplan.dto;
 
 import java.util.Date;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 
@@ -44,8 +40,8 @@ public class PersonDTOV1 extends AbstractPerson {
 	
 	@JsonProperty("date_of_birth")
 	@JsonFormat(pattern="dd/MM/yyyy")
-	@Temporal(TemporalType.DATE)
 	@Past
+	@NotNull
 	private Date dateOfBirth;
 	
 	@JsonProperty("naturalness")

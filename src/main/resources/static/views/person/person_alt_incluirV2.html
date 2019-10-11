@@ -1,0 +1,110 @@
+<div ng-init="mostraMsg=false">
+	
+	<form class="form-horizontal" ng-submit="savePerson()" role="form">
+		<div>
+			<h4>{{ view }}</h4>
+		</div>		
+		<div ng-if="mostraMsg" ng-class="classMessage">
+			<span class="glyphicon glyphicon-exclamation-sign">  <strong>{{message}}</strong></span>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3" for="id">Id:</label>
+			<div class="col-sm-1">
+				<input type="text" class="form-control" name="id" id="id" ng-model="person.id" readonly="readonly">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3" for="name">Nome:</label>
+			<div class="col-sm-7">
+				<input type="text" class="form-control" name="name" id="name" ng-model="person.name" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3" for="dtNascimento">Data de Nascimento:</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" name="dtNascimento" id="dtNascimento" ng-model="person.date_of_birth" mask="00/00/0000" datepicker required>
+			</div>
+			<label class="control-label col-sm-3" for="gender">Sexo:</label>
+			<div class="col-sm-2">
+				<select class="form-control" name="gender" id="gender" ng-model="person.gender">
+					<option value="M" ng-selected="true">Masculino</option>
+					<option value="F">Feminino</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3" for="email">Email:</label>
+			<div class="col-sm-7">
+				<input type="email" class="form-control" id="email" name="email"  ng-model="person.email">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3" for="naturalness">Naturalidade:</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" name=""naturalness"" id=""naturalness"" ng-model="person.naturalness">
+			</div>
+			<label class="control-label col-sm-3" for="nationality">Nacionalidade:</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" name="nationality" id="nationality" ng-model="person.nationality">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3" for="document">CPF:</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" id="document" name="document"  ng-model="person.document" mask="000.000.000-00" required>
+			</div>
+		</div>				
+		<div class="form-group">
+			<label class="control-label col-sm-3" for="cep">CEP:</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" name="endeCep" id="cep" ng-model="person.endereco.endeCep" mask="00.000-000" required>
+			</div>
+			<div class="col-sm-1">
+				<button type="button" ng-click="buscaEndereco()" class="btn btn-info btn-lg btn-icon" title="Buscar CEP" 
+					name="buscarCep" id="BuscarCep">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</div>			
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3" for="telRes">Rua:</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" name="endeRua" id="endeRua" ng-model="person.endereco.endeRua" required readonly>
+			</div>
+			<label class="control-label col-sm-1" for="telRes">Nº:</label>
+			<div class="col-sm-1">
+				<input type="text" class="form-control" name="endeNum" id="endeNum"	ng-model="person.endereco.endeNumero" required pattern="[0-9]+$">
+			</div>
+		</div>
+		<div class="form-group">		
+			<label class="control-label col-sm-3" for="telCel">Complemento:</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" name="endeComplem" id="endeComplem" ng-model="person.endereco.endeComplemento">
+			</div>
+			<label class="control-label col-sm-3" for="endeBairro">Bairro:</label>
+				<div class="col-sm-2">
+					<input type="text" class="form-control" name="endeBairro" id="endeBairro" ng-model="person.endereco.endeBairro" readonly required>
+			</div>	
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-3" for="estado">Estado:</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" name="endeEstado" id="endeEstado" ng-model="person.endereco.cidade.estado.sigla"  readonly required>
+			</div>
+			<label class="control-label col-sm-3" for="cidade">Cidade:</label>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" name="endeCidade" id="endeCidade" ng-model="person.endereco.cidade.descr" readonly required>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3"></div>
+			<button type="submit" class="col-sm-2 btn  btn-info btn-lg btn-icon btn-secondary" id="includePerson" title="Incluir Pessoa"><span class="glyphicon glyphicon-save 	"> {{acaoButton}}</span></button>
+			<div ng-class="classDivButton"></div>
+			<button type="button" ng-click="redirectToSearch()" class=" col-sm-2 btn  btn-info btn-lg btn-icon btn-secondary" id="searchPerson" title="Ir para pesquisa"><span class="glyphicon glyphicon-search">Ir para pesquisa</span></button>
+			
+			<button type="button" ng-click="redirectToInclude()" ng-show="isUpdate" class="col-sm-2 btn  btn-info btn-lg btn-icon btn-secondary" id="searchPerson" title="Ir para pesquisa"><span class="glyphicon glyphicon glyphicon-menu-left">Ir para Inclusão</span></button>
+			
+		</div>
+	</form>
+</div>
+<div id="modal" ng-include src="'views/modal_loading.html'" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"></div>

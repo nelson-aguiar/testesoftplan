@@ -20,6 +20,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.nelsonaguiar.testesoftplan.exception.ErrorEntity;
+import com.nelsonaguiar.testesoftplan.exception.PersonAlreadyExists;
 import com.nelsonaguiar.testesoftplan.exception.PersonNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,11 @@ public class PersonControllerAdvice extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(PersonNotFoundException.class)
 	public ResponseEntity<?> notFoundException(final PersonNotFoundException e) {
+		return  new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(PersonAlreadyExists.class)
+	public ResponseEntity<?> alreadyExistsException(final PersonAlreadyExists e) {
 		return  new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 

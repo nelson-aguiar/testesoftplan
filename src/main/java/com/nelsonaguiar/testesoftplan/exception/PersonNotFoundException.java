@@ -20,5 +20,11 @@ public class PersonNotFoundException extends RuntimeException {
 	public PersonNotFoundException(final String name) {
 		super("Person could not be found with name: " + name);
 	}
+	
+	public PersonNotFoundException() {
+		super("Person could not be found");
+	}
+	
+	
 
 }

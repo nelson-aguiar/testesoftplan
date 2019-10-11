@@ -10,7 +10,7 @@ app.factory('PersonResource', function ($resource, Configuration) {
 			
 			'update' : {
 				method : 'PUT',
-				headers : {'Content-Type':'application/json; charset=UTF-8'}
+				headers : customHeader
 			},
 			
 			'get' : {
@@ -46,6 +46,7 @@ app.factory('PersonResource', function ($resource, Configuration) {
 				params : {
 					id : '@id'
 				},
+				data : '',
 				headers : customHeader
 			}
 		});		

@@ -36,24 +36,27 @@
 				<th>id</th>
 				<th>Nome</th>
 				<th>Data de Nascimento</th>
+				<th>CPF</th>
 				<th>E-mail</th>
-				<!-- <th>Endereço</th>
-				<th>Telefone</th> -->
+				<th>Sexo</th>
+				<th>Naturallidade</th>
+				<th>Nacionalidade</th>
 				<th>Editar</th>
-				<!-- <th>Remover</th> -->
+				<th>Remover</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="person in persons">
-				<td class="td-right">{{person.id}}</td>
-				<td class="td-left">{{person.nome}}</td>
-				<td class="td-right">{{person.dtNascimento}}</td>
-				<td class="td-left">{{person.email}}</td>
-				<!-- <td class="td-left">
-					{{person.endereco.endeRua +'/'+ person.endereco.endeNumero + (person.endereco.endeComplemento == null ? '' : +' / '+person.endereco.endeComplemento) +' / ' + person.endereco.endeCep +' / ' + person.endereco.cidade.descr +' / '+person.endereco.cidade.estado.sigla}} </td>
-				<td class="td-right">{{person.telCel}} / {{person.telRes}}</td>
-				<td class="td-center"><button class="btn  btn-info btn-lg btn-icon" ng-click="editPerson(person.id)"><span class="glyphicon glyphicon-pencil"></span></button></td> -->
-				<!-- <td class="td-center"><button class="btn  btn-danger btn-lg btn-icon" ng-click="removePerson(person.id, $index)"><span class="glyphicon glyphicon-remove"></span></button></td> -->
+			<tr ng-repeat="data in persons">
+				<td class="td-right">{{data.person.id}}</td>
+				<td class="td-left">{{data.person.name}}</td>
+				<td class="td-right">{{data.person.date_of_birth}}</td>
+				<td class="td-right">{{data.person.document}}</td>
+				<td class="td-left">{{data.person.email}}</td>
+				<td class="td-left">{{data.person.gender}}</td>
+				<td class="td-left">{{data.person.naturalness}}</td>
+				<td class="td-left">{{data.person.nationality}}</td>
+				<td class="td-center"><button class="btn  btn-info btn-lg btn-icon" ng-click="editPerson(data.person.id)"><span class="glyphicon glyphicon-pencil"></span></button></td>
+				<td class="td-center"><button class="btn  btn-danger btn-lg btn-icon" ng-click="removePerson(data.person.id, $index)"><span class="glyphicon glyphicon-remove"></span></button></td>
 			</tr>
 		</tbody>
 	</table>

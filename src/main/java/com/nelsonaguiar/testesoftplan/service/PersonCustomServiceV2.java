@@ -50,7 +50,7 @@ public class PersonCustomServiceV2 implements PersonService{
 	}
 
 	@Override
-	public List<PersonDTOV1> getPersonsByName(String name) {
+	public List<PersonResource> getPersonsByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}

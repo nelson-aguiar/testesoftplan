@@ -22,6 +22,6 @@ public interface PersonService {
 	
 	public PersonResource updatePerson(AbstractPerson person);
 	
-	public List<PersonDTOV1> getPersonsByName(String name);
+	public List<PersonResource> getPersonsByName(String name);
 	
 }
