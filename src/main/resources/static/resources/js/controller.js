@@ -166,7 +166,6 @@ app.controller('pesquisarPersonCtrlV2', function ($scope, PersonResource ,$timeo
         location.href = '#/v2/include-person';
     };
     $scope.editPerson = function (id) {
-    	console.log(id);
         location.href = '#/v2/edit-person/' + id;
     };
     
@@ -178,11 +177,9 @@ app.controller('pesquisarPersonCtrlV2', function ($scope, PersonResource ,$timeo
         } else if (nome == null) {
             startLoad();
             $scope.persons = PersonResource(Configuration.customHeaderV2).getAll(function (data) {
-                console.log(data);
                 $scope.isLoaded = true;
                 finishLoad();
             }, function (err) {
-                console.log(err);
                 errCallbackService(err, $scope, $timeout);
                 $scope.isLoaded = false;
                 finishLoad();
@@ -193,7 +190,6 @@ app.controller('pesquisarPersonCtrlV2', function ($scope, PersonResource ,$timeo
                 $scope.isLoaded = true;
                 finishLoad();
             }, function (err) {
-                console.log(err);
                 errCallbackService(err, $scope, $timeout);
                 $scope.isLoaded = false;
                 finishLoad();
@@ -215,7 +211,6 @@ app.controller('pesquisarPersonCtrlV2', function ($scope, PersonResource ,$timeo
             $scope.persons.splice(index, 1);
             showMsgSuccess($scope, $timeout, 'Pessoa excluida com sucesso!!!');
         }, function (err) {
-            console.log(err);
             errCallbackService(err, $scope, $timeout);
         });
     }    
@@ -244,7 +239,6 @@ app.controller('incluirAlterarPersonCtrlV2', function ($scope, PersonResource, b
             }, function (err) {
                 errCallbackService(err, $scope, $timeout);
             });
-            console.log( $scope.person);
             return 'Editar Pessoa Versão 2';
         }
     }
@@ -260,7 +254,6 @@ app.controller('incluirAlterarPersonCtrlV2', function ($scope, PersonResource, b
             PersonResource(Configuration.customHeaderV2).update($scope.person,function (data) {
                 showMsgSuccess($scope, $timeout, 'Pessoa Alterada com Sucesso!!!');
                 $scope.person = data.person;
-                console.log(data);
                 finishLoad();
             }, function (err) {
                 errCallbackService(err, $scope, $timeout);
@@ -270,14 +263,12 @@ app.controller('incluirAlterarPersonCtrlV2', function ($scope, PersonResource, b
         else {
             startLoad();
             PersonResource(Configuration.customHeaderV2).save($scope.person, function (data) {
-            	console.log($scope.person);
                 showMsgSuccess($scope, $timeout, 'Pessoa Inserida com Sucesso!!!');
                 $scope.person = data.person;
                 $scope.person.id = '';
                 finishLoad();     
                 
             },function (err) {
-            	console.log(err)
                 errCallbackService(err, $scope, $timeout);
                 finishLoad();
             });				
@@ -300,7 +291,6 @@ app.controller('incluirAlterarPersonCtrlV2', function ($scope, PersonResource, b
         }
         startLoad();;
         buscaCepResource.get({cep : $scope.person.address.postal_code, formato : 'json'}, function (data) {
-        	console.log(data)
             if(data.resultado_txt == 'sucesso - cep não encontrado') {
                 finishLoad();
                 showMsgError($scope, $timeout, 'Cep Inexisteste!!!');
@@ -311,56 +301,8 @@ app.controller('incluirAlterarPersonCtrlV2', function ($scope, PersonResource, b
         },function (err) {
             finishLoad();
             showMsgError($scope, $timeout, 'Erro ao Buscar Cep!!!');
-            console.log(data);
         });	
     }		
-});
-
-
-
-/*app.controller('ListaComprasController', function ($scope, usuarioResource ) {
-    $scope.isLoaded = false;
-    $scope.itens = usuarioResource.query(function (data) {
-        console.log(data);
-        $scope.isLoaded = true;
-    });
-
-    [
-        {id : 23, produto: 'Leite', quantidade: 2, comprado: false},
-        {id : 24, produto: 'Cerveja', quantidade: 12, comprado: false}
-    ];
-
-
-
-    $scope.adicionaItem = function () {
-        var key = $scope.itens.length >= 1  ? ($scope.itens[$scope.itens.length-1].id + 1) : 1;
-        $scope.itens.push({id : key,  produto: $scope.item.produto,
-                           quantidade: $scope.item.quantidade,
-                           comprado: false});
-        $scope.item.produto = $scope.item.quantidade = '';
-    };
-
-    $scope.remove = function ( idx ) {        	
-        var item_to_delete = $scope.itens[idx];
-        $scope.itens.splice(idx, 1);
-    };
-});
-*/	
-app.controller('formLogin', function ($scope, $http) {
-    //var authdata = Base64.encode($scope.user.name + ':' + $scope.user.passwd);
-    //$http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
-    $scope.submitLogin = function () {
-        $http({
-            url: 'rest/usuario',
-            data: $scope.user,
-            method: 'POST',
-            headers : {'Content-Type':'application/json; charset=UTF-8'}
-
-        }).success(function (data) {
-            console.log('OK', data);
-        }).error(function (err) {'ERR', console.log(err)})
-    };
-
 });
 
 app.controller('homeCtrl', function ($scope) {
