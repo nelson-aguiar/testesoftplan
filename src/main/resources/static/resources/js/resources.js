@@ -54,7 +54,7 @@ app.factory('PersonResource', function ($resource, Configuration) {
 });
 
 app.factory('buscaCepResource', function($resource) {
-	return $resource("http://republicavirtual.com.br/web_cep.php", {}, {
+	return $resource("https://republicavirtual.com.br/web_cep.php", {}, {
 		'get' : {
 			method : 'GET',
 			isArray : false,
