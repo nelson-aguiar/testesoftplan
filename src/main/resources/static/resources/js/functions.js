@@ -17,10 +17,10 @@ function showMsgSuccess($scope, $timeout, msg){
 /*Mensagens para operações com erros */
 function showMsgError($scope, $timeout, msg){
     $scope.mostraMsg = true;
-    $scope.classMessage = 'alert alert-danger default';
+    $scope.classMessage = 'alert alert-danger default white-space-pre-line';
     $scope.message = msg;
     $timeout(function(){
-        $scope.classMessage = 'alert alert-danger fade';
+        $scope.classMessage = 'alert alert-danger fade white-space-pre-line';
         $timeout(function(){
             $scope.mostraMsg = false;				
         }, 300);
@@ -40,12 +40,13 @@ function errCallbackService(err, $scope, $timeout){
 		var msg = err.data.map(function(err){
 			console.log(err)
 			//console.log("\n"+err.code +" "+ err.error);
-		    return "\n"+err.code +" "+ err.error;
+		    return "\n *"+ err.error;
 		});	
 		showMsgError($scope, $timeout, msg.toString());
 	}
 	else{
-		showMsgError($scope, $timeout, err.data.message);
+		var msg = typeof err.data.message == 'undefined' ? err.data : err.data.message;
+		showMsgError($scope, $timeout, msg);
 	}
 }
 

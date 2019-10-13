@@ -25,9 +25,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Validated
 public class PersonDTOV1 extends AbstractPerson {
-
 	@JsonProperty("name")
-	@NotBlank
+	@NotBlank(message = "Nome deve ser preenchido")
 	private String name;
 	
 	@JsonProperty("email")
@@ -41,7 +40,7 @@ public class PersonDTOV1 extends AbstractPerson {
 	@JsonProperty("date_of_birth")
 	@JsonFormat(pattern="dd/MM/yyyy")
 	@Past
-	@NotNull
+	@NotNull(message = "Data de nascimento deve ser preenchida")
 	private Date dateOfBirth;
 	
 	@JsonProperty("naturalness")
@@ -51,7 +50,7 @@ public class PersonDTOV1 extends AbstractPerson {
 	private String nationality;
 	
 	@JsonProperty("document")
-	@NotBlank
+	@NotBlank(message = "CPF deve ser preenchido")
 	@CPF(message = "CPF inválido")
 	private String document;
 	

@@ -36,15 +36,14 @@ public class PersonCustomServiceV1 implements PersonService {
 	@Override
 	public PersonResource save(AbstractPerson person) {
 		Person personV1 = this.mapper.map(person, Person.class);
-		personV1.setRegistredAt(new Date(Instant.now().toEpochMilli()));
-		this.repository.save(personV1);
-		person.setId(personV1.getId());
-		return new PersonResource(toDTO(person));
+		personV1.setRegistredAt(new Date(Instant.now().toEpochMilli()));;
+		personV1 = this.repository.save(personV1);
+		return new PersonResource(toDTO(personV1));
 	}
 
 	@Override
 	public List<PersonResource> getAll() {
-		Optional<List<Person>> personsV1 = Optional.of(this.repository.findAll());
+		Optional<List<Person>> personsV1 = Optional.of(this.repository.findAll()).filter(l -> !l.isEmpty());
 		return personsV1.orElseThrow(() -> new PersonNotFoundException()).stream().map(p -> {
 			return new PersonResource(toDTO(p));
 		}).collect(Collectors.toList());
@@ -63,13 +62,14 @@ public class PersonCustomServiceV1 implements PersonService {
 		this.repository.findById(person.getId()).orElseThrow(() -> new PersonNotFoundException(person.getId()));
 		Person personV1 = this.mapper.map(person, Person.class);
 		personV1.setUpdatedAt(new Date(Instant.now().toEpochMilli()));
-		this.repository.save(personV1);
-		return new PersonResource(toDTO(person));
+		personV1.setRegistredAt(personV1.getRegistredAt());
+		personV1 = this.repository.save(personV1);
+		return new PersonResource(toDTO(personV1));
 	}
 
 	@Override
 	public List<PersonResource> getPersonsByName(String name) {
-		return this.repository.findAllByNameContaining(name).orElseThrow(() -> new PersonNotFoundException(name))
+		return this.repository.findAllByNameContainingIgnoringCase(name).orElseThrow(() -> new PersonNotFoundException(name))
 				.stream().map(p -> {
 					return new PersonResource(toDTO(p));
 				}).collect(Collectors.toList());

@@ -14,15 +14,15 @@ public class PersonNotFoundException extends RuntimeException {
 	private Long id;
 
 	public PersonNotFoundException(final long id) {
-		super("Person could not be found with id: " + id);
+		super("Pessoa não localizada com id: " + id);
 	}
 
 	public PersonNotFoundException(final String name) {
-		super("Person could not be found with name: " + name);
+		super("Pessoa não localizada com id: " + name);
 	}
 	
 	public PersonNotFoundException() {
-		super("Person could not be found");
+		super("Pessoa não pode ser encontrada");
 	}
 	
 	

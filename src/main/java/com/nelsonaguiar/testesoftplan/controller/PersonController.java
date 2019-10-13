@@ -9,6 +9,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nelsonaguiar.testesoftplan.dto.PersonDTOV1;
+import com.nelsonaguiar.testesoftplan.dto.PersonDTOV2;
 import com.nelsonaguiar.testesoftplan.exception.PersonAlreadyExists;
 import com.nelsonaguiar.testesoftplan.resources.PersonResource;
 import com.nelsonaguiar.testesoftplan.service.PersonCustomServiceV1;
@@ -41,12 +43,6 @@ public class PersonController {
 	@GetMapping(value= "/{id}", consumes = "application/vnd.nelsonaguiar.testesoftplan-v1+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v1+json")
 	public ResponseEntity<PersonResource> getV1(@PathVariable final long id) {
 		this.service = beanFactory.getBean(PersonCustomServiceV1.class);
-		return ResponseEntity.ok(service.getById(id));
-	}
-	
-	@GetMapping(value= "/{id}", consumes = "application/vnd.nelsonaguiar.testesoftplan-v2+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v2+json")	
-	public ResponseEntity<PersonResource> getV2(@PathVariable final long id) {
-		this.service = beanFactory.getBean(PersonCustomServiceV2.class);
 		return ResponseEntity.ok(service.getById(id));
 	}
 	
@@ -76,7 +72,7 @@ public class PersonController {
 	@GetMapping(consumes = "application/vnd.nelsonaguiar.testesoftplan-v1+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v1+json")
 	public ResponseEntity<List<PersonResource>> getPerson() {
 		this.service = beanFactory.getBean(PersonCustomServiceV1.class);
-		return ResponseEntity.ok(this.service.getPersonsByName(""));
+		return ResponseEntity.ok(this.service.getAll());
 	}
 	
 	@GetMapping(value= "/search", consumes = "application/vnd.nelsonaguiar.testesoftplan-v1+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v1+json")
@@ -84,5 +80,51 @@ public class PersonController {
 		this.service = beanFactory.getBean(PersonCustomServiceV1.class);
 		return ResponseEntity.ok(this.service.getPersonsByName(name));
 	}
+	
+	/**
+	 * Version 2 end-points
+	 * */
+	
+	@GetMapping(value= "/{id}", consumes = "application/vnd.nelsonaguiar.testesoftplan-v2+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v2+json")	
+	public ResponseEntity<PersonResource> getV2(@PathVariable final long id) {
+		this.service = beanFactory.getBean(PersonCustomServiceV2.class);
+		return ResponseEntity.ok(service.getById(id));
+	}
+	
+	@PostMapping(consumes = "application/vnd.nelsonaguiar.testesoftplan-v2+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v2+json")
+	public ResponseEntity<PersonResource> postV2( @RequestBody @Valid PersonDTOV2 person) {
+		if (Objects.nonNull(person.getId())) {
+			throw new PersonAlreadyExists("Pessoa já cadastrada na base de dados");
+		}
+		this.service = beanFactory.getBean(PersonCustomServiceV2.class);
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(person));
+	}
+	
+	@PutMapping(consumes = "application/vnd.nelsonaguiar.testesoftplan-v2+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v2+json")
+	public ResponseEntity<PersonResource> putV2( @RequestBody @Valid PersonDTOV2 person) {
+		this.service = beanFactory.getBean(PersonCustomServiceV2.class);
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.updatePerson(person));
+	}
+	
+	@DeleteMapping(value= "/{id}", consumes = "application/vnd.nelsonaguiar.testesoftplan-v2+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v2+json")
+	public ResponseEntity<String> deleteV2(@PathVariable final long id) {
+		this.service = beanFactory.getBean(PersonCustomServiceV2.class);
+		this.service.deletePerson(id);
+		return ResponseEntity.ok("Pessoa com "+id+ "deletada com sucesso");
+	}
+	
+	
+	@GetMapping(consumes = "application/vnd.nelsonaguiar.testesoftplan-v2+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v2+json")
+	public ResponseEntity<List<PersonResource>> getPersonV2() {
+		this.service = beanFactory.getBean(PersonCustomServiceV2.class);
+		return ResponseEntity.ok(this.service.getAll());
+	}
+	
+	@GetMapping(value= "/search", consumes = "application/vnd.nelsonaguiar.testesoftplan-v2+json", produces = "application/vnd.nelsonaguiar.testesoftplan-v2+json")
+	public ResponseEntity<List<PersonResource>> getPersonByNameV2(@RequestParam String name) {
+		this.service = beanFactory.getBean(PersonCustomServiceV2.class);
+		return ResponseEntity.ok(this.service.getPersonsByName(name));
+	}
+	
 
 }

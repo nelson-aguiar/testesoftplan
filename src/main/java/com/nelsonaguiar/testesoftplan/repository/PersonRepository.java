@@ -11,7 +11,7 @@ import com.nelsonaguiar.testesoftplan.beans.Person;
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long>{
 	
-	Optional<List<Person>> findAllByNameContaining(String name);
+	Optional<List<Person>> findAllByNameContainingIgnoringCase(String name);
 	
 	List<Person> findAll();
 }

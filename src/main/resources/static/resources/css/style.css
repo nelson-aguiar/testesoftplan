@@ -72,3 +72,7 @@ width: 100%;
 .table-striped>tbody>tr:nth-child(odd)>th {
    background-color: silver;
 }
+
+div.white-space-pre-line {
+    white-space: pre-line;
+}

@@ -85,7 +85,6 @@ app.controller('pesquisarPersonCtrl', function ($scope, PersonResource ,$timeout
  * Controller view incluir Person V1
  * **/
 app.controller('incluirAlterarPersonCtrl', function ($scope, PersonResource, buscaCepResource, $timeout, $routeParams, Configuration) {
-	$scope.customHeader = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v1+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v1+json"};
     /*Função para carregar as funções e atributos da view de alteração ou criação*/
     function carregaView() {
         if (location.hash == '#/v1/include-person') {
@@ -161,7 +160,7 @@ app.controller('incluirAlterarPersonCtrl', function ($scope, PersonResource, bus
  * ações de busca redirecionamento etc estão contidas neste bloco
  * */
 app.controller('pesquisarPersonCtrlV2', function ($scope, PersonResource ,$timeout, Configuration) {
-    $scope.view = 'Pesquisar Pessoa';
+    $scope.view = 'Pesquisar Pessoa V2';
     //direciona para pagina de inclusão
     $scope.newPerson = function () {
         location.href = '#/v2/include-person';
@@ -293,20 +292,21 @@ app.controller('incluirAlterarPersonCtrlV2', function ($scope, PersonResource, b
     	location.href = '#/v2/include-person';
     }
     //buscar endereço pelo cep
-    $scope.buscaEndereco = function () {
-        if(typeof $scope.person == 'undefined' || typeof $scope.person.endereco == 'undefined') {
+    $scope.searchAaddress = function () {
+        if(typeof $scope.person == 'undefined' || typeof $scope.person.address == 'undefined') {
             showMsgError($scope, $timeout, 'Informe o CEP');
             angular.element('#cep').focus();
             return;
         }
         startLoad();;
-        buscaCepResource.get({cep : $scope.person.endereco.endeCep, formato : 'json'}, function (data) {
+        buscaCepResource.get({cep : $scope.person.address.postal_code, formato : 'json'}, function (data) {
+        	console.log(data)
             if(data.resultado_txt == 'sucesso - cep não encontrado') {
                 finishLoad();
                 showMsgError($scope, $timeout, 'Cep Inexisteste!!!');
                 return;
             }
-            $scope.person.endereco = {endeCep : $scope.person.endereco.endeCep, endeRua : data.logradouro, endeBairro : data.bairro,  cidade : {descr : data.cidade, estado : {sigla : data.uf}}};
+            $scope.person.address = {postal_code : $scope.person.address.postal_code, street : data.logradouro, district : data.bairro,  city : data.cidade, state : data.uf};
             finishLoad();
         },function (err) {
             finishLoad();
@@ -361,15 +361,6 @@ app.controller('formLogin', function ($scope, $http) {
         }).error(function (err) {'ERR', console.log(err)})
     };
 
-});
-
-app.controller('orcamentoCtrl', function ($scope, $location, $filter) {
-    $scope.message = 'Orçamento';
-
-    
-    $scope.newOrcamento = function(){
-        location.href = '#incluir-orcamento'
-    }
 });
 
 app.controller('homeCtrl', function ($scope) {

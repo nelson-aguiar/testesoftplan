@@ -3,19 +3,18 @@ package com.nelsonaguiar.testesoftplan.beans;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
-
-import org.springframework.validation.annotation.Validated;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,9 +25,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="person")
-@SecondaryTable(name="person_address", pkJoinColumns={
-        @PrimaryKeyJoinColumn(name="person_id", referencedColumnName = "id")})
-@Validated
 public class Person implements Serializable{
 	
 	/**
@@ -70,24 +66,7 @@ public class Person implements Serializable{
 	@Column(name = "updated_at", table = "person")
 	private Date updatedAt;	
 	
-	@Column(name="postal_code", table = "person_address")
-	private String postalCode;
-	
-	@Column(name="street", table = "person_address")
-	private String street;
-	
-	@Column(name="number", table = "person_address")
-	private Integer number;
-	
-	@Column(name="complement", table = "person_address")
-	private String complement;
-	
-	@Column(name="district", table = "person_address")
-	private String district;
-	
-	@Column(name="city", table = "person_address")
-	private String city;
-	
-	@Column(name="state", table = "person_address")
-	private String state;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(referencedColumnName = "id", name = "person_id")
+	private Address address;	
 }

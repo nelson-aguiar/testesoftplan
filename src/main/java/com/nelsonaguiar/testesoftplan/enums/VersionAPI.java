@@ -12,9 +12,9 @@ import lombok.Getter;
 public enum VersionAPI {
 	
 	V1(1, "V1", new PersonDTOV1()),
-	V2(1, "V2", new PersonDTOV2());
+	V2(2, "V2", new PersonDTOV2());
 	
-	private int id;	
+	private Integer version;	
 	private String code;
 	private AbstractPerson person;
 

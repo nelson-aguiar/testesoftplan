@@ -55,45 +55,45 @@
 			</div>
 		</div>				
 		<div class="form-group">
-			<label class="control-label col-sm-3" for="cep">CEP:</label>
+			<label class="control-label col-sm-3" for="postalCode">CEP:</label>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="endeCep" id="cep" ng-model="person.endereco.endeCep" mask="00.000-000" required>
+				<input type="text" class="form-control" name="postalCode" id="postalCode" ng-model="person.address.postal_code" mask="00.000-000" required>
 			</div>
 			<div class="col-sm-1">
-				<button type="button" ng-click="buscaEndereco()" class="btn btn-info btn-lg btn-icon" title="Buscar CEP" 
-					name="buscarCep" id="BuscarCep">
+				<button type="button" ng-click="searchAaddress()" class="btn btn-info btn-lg btn-icon" title="Buscar CEP" 
+					name="searchAaddress" id="searchAaddress()">
 					<span class="glyphicon glyphicon-search"></span>
 				</button>
 			</div>			
 		</div>
 		<div class="form-group">
-			<label class="control-label col-sm-3" for="telRes">Rua:</label>
+			<label class="control-label col-sm-3" for="street">Rua:</label>
 			<div class="col-sm-5">
-				<input type="text" class="form-control" name="endeRua" id="endeRua" ng-model="person.endereco.endeRua" required readonly>
+				<input type="text" class="form-control" name="street" id="street" ng-model="person.address.street" required readonly>
 			</div>
-			<label class="control-label col-sm-1" for="telRes">Nº:</label>
+			<label class="control-label col-sm-1" for="number">Nº:</label>
 			<div class="col-sm-1">
-				<input type="text" class="form-control" name="endeNum" id="endeNum"	ng-model="person.endereco.endeNumero" required pattern="[0-9]+$">
+				<input type="text" class="form-control" name="number" id="number"	ng-model="person.address.number" required pattern="[0-9]+$">
 			</div>
 		</div>
 		<div class="form-group">		
-			<label class="control-label col-sm-3" for="telCel">Complemento:</label>
+			<label class="control-label col-sm-3" for="complement">Complemento:</label>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="endeComplem" id="endeComplem" ng-model="person.endereco.endeComplemento">
+				<input type="text" class="form-control" name="complement" id="complement" ng-model="person.address.complement">
 			</div>
-			<label class="control-label col-sm-3" for="endeBairro">Bairro:</label>
+			<label class="control-label col-sm-3" for="district">Bairro:</label>
 				<div class="col-sm-2">
-					<input type="text" class="form-control" name="endeBairro" id="endeBairro" ng-model="person.endereco.endeBairro" readonly required>
+					<input type="text" class="form-control" name="district" id="district" ng-model="person.address.district" readonly required>
 			</div>	
 		</div>
 		<div class="form-group">
-			<label class="control-label col-sm-3" for="estado">Estado:</label>
+			<label class="control-label col-sm-3" for="state">Estado:</label>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="endeEstado" id="endeEstado" ng-model="person.endereco.cidade.estado.sigla"  readonly required>
+				<input type="text" class="form-control" name="state" id="state" ng-model="person.address.state"  readonly required>
 			</div>
-			<label class="control-label col-sm-3" for="cidade">Cidade:</label>
+			<label class="control-label col-sm-3" for="city">Cidade:</label>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="endeCidade" id="endeCidade" ng-model="person.endereco.cidade.descr" readonly required>
+				<input type="text" class="form-control" name="city" id="city" ng-model="person.address.city" readonly required>
 			</div>
 		</div>
 		<div class="row">

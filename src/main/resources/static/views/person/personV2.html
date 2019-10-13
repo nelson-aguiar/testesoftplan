@@ -39,6 +39,7 @@
 				<th>CPF</th>
 				<th>E-mail</th>
 				<th>Sexo</th>
+				<th>Endereço</th>
 				<th>Naturallidade</th>
 				<th>Nacionalidade</th>
 				<th>Editar</th>
@@ -53,6 +54,8 @@
 				<td class="td-right">{{data.person.document}}</td>
 				<td class="td-left">{{data.person.email}}</td>
 				<td class="td-left">{{data.person.gender}}</td>
+				<td class="td-left">
+					{{data.person.address.street +'/'+person.address.number + (data.person.address.complent == null ? '' : +' / '+data.person.address.complent) +' / ' + data.person.address.postal_code +' / ' + data.person.address.city +' / '+data.person.address.state}} </td>
 				<td class="td-left">{{data.person.naturalness}}</td>
 				<td class="td-left">{{data.person.nationality}}</td>
 				<td class="td-center"><button class="btn  btn-info btn-lg btn-icon" ng-click="editPerson(data.person.id)"><span class="glyphicon glyphicon-pencil"></span></button></td>

@@ -67,6 +67,17 @@ app.factory('buscaCepResource', function($resource) {
 })
 ;
 
+app.factory('LogoutResouce', function($resource, Configuration) {
+	return $resource(Configuration.API+"/perform_logout", {}, {		
+		'get' : {
+			method : 'GET',
+			isArray : false
+		}
+	});		
+})
+;
+
+
 app.factory("autocompleteClienteResource", function ($resource, Configuration) {
    return $resource(Configuration.API+"/person/auto-complete/:nome", {}, {
         'search' : {

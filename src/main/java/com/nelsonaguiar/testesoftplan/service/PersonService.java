@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.nelsonaguiar.testesoftplan.dto.AbstractPerson;
-import com.nelsonaguiar.testesoftplan.dto.PersonDTOV1;
 import com.nelsonaguiar.testesoftplan.resources.PersonResource;
 
 
