@@ -63,11 +63,16 @@ public class PersonCustomServiceV1 implements PersonService {
 
 	@Override
 	public PersonResource updatePerson(AbstractPerson person) {
-		this.repository.findById(person.getId()).orElseThrow(() -> new PersonNotFoundException(person.getId()));
-		Person personV1 = this.mapper.map(person, Person.class);
-		personV1.setUpdatedAt(new Date(Instant.now().toEpochMilli()));
-		personV1.setRegistredAt(personV1.getRegistredAt());
-		personV1 = this.repository.save(personV1);
+		Person personOld = this.repository.findById(person.getId()).orElseThrow(() -> new PersonNotFoundException(person.getId()));
+		//cria como v2 para não perder o endereço caso exista
+		Person personV2 = this.mapper.map(person, Person.class);
+		personV2.setUpdatedAt(new Date(Instant.now().toEpochMilli()));
+		personV2.setRegistredAt(personOld.getRegistredAt());	
+		personV2.setAddress(personOld.getAddress());
+		this.repository.save(personV2);
+		
+		PersonDTOV1 personV1 = this.mapper.map(personV2, PersonDTOV1.class);
+		
 		return new PersonResource(toDTO(personV1));
 	}
 
