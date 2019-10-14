@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.nelsonaguiar.testesoftplan.beans.Person;
 import com.nelsonaguiar.testesoftplan.dto.AbstractPerson;
 import com.nelsonaguiar.testesoftplan.dto.PersonDTOV2;
+import com.nelsonaguiar.testesoftplan.exception.PersonAlreadyExists;
 import com.nelsonaguiar.testesoftplan.exception.PersonNotFoundException;
 import com.nelsonaguiar.testesoftplan.repository.PersonRepository;
 import com.nelsonaguiar.testesoftplan.resources.PersonResource;
@@ -36,6 +37,9 @@ public class PersonCustomServiceV2 implements PersonService{
 	@Override
 	public PersonResource save(AbstractPerson person) {
 		Person personV2 = this.mapper.map(person, Person.class);
+		this.repository.findByDocument(personV2.getDocument()).ifPresent(p -> {
+			throw new PersonAlreadyExists("pessoa já cadastrada para o cpf: "+p.getDocument());
+		});
 		personV2.setRegistredAt(new Date(Instant.now().toEpochMilli()));
 		this.repository.save(personV2);
 		person.setId(personV2.getId());

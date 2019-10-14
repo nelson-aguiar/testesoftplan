@@ -13,5 +13,7 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
 	
 	Optional<List<Person>> findAllByNameContainingIgnoringCase(String name);
 	
+	Optional<Person> findByDocument(String document);
+	
 	List<Person> findAll();
 }
