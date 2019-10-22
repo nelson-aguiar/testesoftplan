@@ -30,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    protected void configure(final HttpSecurity http) throws Exception {	    	
 
 	         http
+	         .headers().frameOptions().sameOrigin()
+         	  .and()
 	          .csrf().disable()
 	          .authorizeRequests()
 	          .antMatchers("/source.html").permitAll()

@@ -6,7 +6,7 @@ app.service("Configuration", function() {
 	this.customHeaderV1 = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v1+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v1+json"};
 	this.customHeaderV2 = {"Accept" : "application/vnd.nelsonaguiar.testesoftplan-v2+json", "Content-Type" : "application/vnd.nelsonaguiar.testesoftplan-v2+json"};
 	if (window.location.host.match(/herokuapp\.com/)) {
-		this.API = 'http://teste-softplan.herokuapp.com/api/teste-softplan';
+		this.API = 'https://teste-softplan.herokuapp.com/api/teste-softplan';
 		return this;
 	} else {
 		this.API = 'http://localhost\\:8080/api/teste-softplan';
