@@ -63,32 +63,5 @@ public class PersonDTOV2 extends AbstractPerson {
 	
 	@JsonProperty("address")
 	private AddressDTO address;
-	
-//	@JsonProperty("postal_code")
-//	@NotBlank(message = "CEP deve ser preenchido")
-//	private String postalCode;
-//	
-//	@JsonProperty("street")
-//	@NotBlank(message = "Rua deve ser preenchido")
-//	private String street;
-//	
-//	@JsonProperty("number")
-//	@NotNull(message = "Número deve ser preenchido")
-//	private Integer number;
-//	
-//	@JsonProperty("complement")
-//	private String complement;
-//	
-//	@JsonProperty("district")
-//	@NotBlank(message = "Bairro deve ser preenchido")
-//	private String district;
-//	
-//	@JsonProperty("city")
-//	@NotBlank(message = "Cidade deve ser preenchido")
-//	private String city;
-//	
-//	@JsonProperty("state")
-//	@NotBlank(message = "Estado deve ser preenchido")
-//	private String state;
 
 }
